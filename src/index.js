@@ -11,6 +11,7 @@ export default function(
   }
 ) {
   let isRootElement = true;
+  let counter = 0;
   return {
     visitor: {
       Program(path) {
@@ -18,12 +19,14 @@ export default function(
           ClassDeclaration(path) {
             isRootElement = true;
             const componentName = path.node.id.name;
-            passDownComponentName(path, componentName, mode, delimiter);
+            passDownComponentName(path, componentName, mode, delimiter, counter);
+            counter ++
           },
           VariableDeclarator(path) {
             isRootElement = true;
             const componentName = path.node.id.name;
-            passDownComponentName(path, componentName, mode, delimiter);
+            passDownComponentName(path, componentName, mode, delimiter, counter);
+            counter ++
           },
           JSXElement(path) {
             const componentName = path.node.openingElement.name.name || "";
@@ -62,7 +65,8 @@ export default function(
             );
 
             mode === "full" &&
-              passDownComponentName(path, componentName, mode, delimiter);
+              passDownComponentName(path, componentName, mode, delimiter, counter);
+            counter ++
           }
         });
       }
@@ -74,17 +78,18 @@ const concatComponentsName = (
   parent = "",
   current = "",
   delimiter = "-",
-  keyValue = ""
+  keyValue = "",
+  counter = 0
 ) => {
   const componentsName =
-    parent && current ? `${parent}${delimiter}${current}` : parent || current;
+    parent && current ? `${parent}${delimiter}${current}${delimiter}${counter}` : parent || current;
 
   return keyValue
     ? `\`${componentsName}${delimiter}\${${keyValue}}\``
     : componentsName;
 };
 
-const passDownComponentName = (path, componentName, mode, delimiter) => {
+const passDownComponentName = (path, componentName, mode, delimiter, counter) => {
   let isRootElement = true;
 
   path.traverse({
@@ -95,14 +100,16 @@ const passDownComponentName = (path, componentName, mode, delimiter) => {
             ? concatComponentsName(
                 path.node.componentName,
                 componentName,
-                delimiter
+                delimiter,
+                counter
               )
             : null;
       } else {
         path.node.componentName = concatComponentsName(
           path.node.componentName,
           componentName,
-          delimiter
+          delimiter,
+          counter
         );
       }
 
