@@ -5,30 +5,7 @@ export default function(
   {
     attrName = "data-test-id",
     mode = "regular", // minimal, regular, full
-    ignoreElements = [
-      "div",
-      "input",
-      "a",
-      "button",
-      "span",
-      "p",
-      "br",
-      "hr",
-      "ul",
-      "ol",
-      "li",
-      "img",
-      "form",
-      "h1",
-      "h2",
-      "h3",
-      "h4",
-      "h5",
-      "h6",
-      "svg",
-      "path",
-      "g"
-    ],
+    ignoreElements = [],
     additionalIgnoreElements = [],
     delimiter = "-"
   }
