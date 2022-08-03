@@ -82,14 +82,14 @@ const concatComponentsName = (
   counter = 0
 ) => {
   const componentsName =
-    parent && current ? `${parent}${delimiter}${current}${delimiter}${counter}` : parent || current;
+    parent && current ? `${parent}${delimiter}${current}` : parent || current;
 
   return keyValue
     ? `\`${componentsName}${delimiter}\${${keyValue}}\``
     : componentsName;
 };
 
-const passDownComponentName = (path, componentName, mode, delimiter, counter) => {
+const passDownComponentName = (path, componentName, mode, delimiter, counter = 0) => {
   let isRootElement = true;
 
   path.traverse({
