@@ -44,23 +44,18 @@ export default function(
             ) {
               return;
             }
-            // if has a key get its value
-            // const keyValue = getKey(path);
 
             const concatComponentName = concatComponentsName(
               path.node.componentName,
               isIgnoredElement ? "" : componentName,
               delimiter,
-              keyValue
             );
 
             isRootElement = false;
 
             const testId = t.stringLiteral(concatComponentName);
 
-            path.node.openingElement.attributes.push(
-              t.jSXAttribute(t.jSXIdentifier(attrName), testId)
-            );
+            path.node.openingElement.attributes.push(t.jSXAttribute(attrName), testId);
 
             mode === "full" &&
               passDownComponentName(path, componentName, mode, delimiter, counter);
@@ -76,11 +71,9 @@ const concatComponentsName = (
   parent = "",
   current = "",
   delimiter = "-",
-  keyValue = "",
   counter = 0
 ) => {
   const componentsName = parent && current ? `${parent}${delimiter}${current}${delimiter}${counter}` : parent || current;
-  // const componentsName = parent && current ? `${parent}${delimiter}${current}` : parent || current;
 
   return componentsName;
 };
@@ -112,17 +105,4 @@ const passDownComponentName = (path, componentName, mode, delimiter, counter = 0
       isRootElement = false;
     }
   });
-};
-
-const getKey = path => {
-  const keyAttribute = path.node.openingElement.attributes.find(
-    ({ name }) => name && name.name === "key"
-  );
-
-  const keyValue =
-    keyAttribute && keyAttribute.value && keyAttribute.value.expression
-      ? keyAttribute.value.expression.name
-      : "";
-
-  return keyValue;
 };
