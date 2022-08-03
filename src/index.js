@@ -45,7 +45,7 @@ export default function(
               return;
             }
             // if has a key get its value
-            const keyValue = getKey(path);
+            // const keyValue = getKey(path);
 
             const concatComponentName = concatComponentsName(
               path.node.componentName,
@@ -56,9 +56,7 @@ export default function(
 
             isRootElement = false;
 
-            const testId = keyValue
-              ? t.jsxExpressionContainer(t.identifier(concatComponentName))
-              : t.stringLiteral(concatComponentName);
+            const testId = t.stringLiteral(concatComponentName);
 
             path.node.openingElement.attributes.push(
               t.jSXAttribute(t.jSXIdentifier(attrName), testId)
