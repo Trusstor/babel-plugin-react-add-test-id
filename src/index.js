@@ -3,7 +3,7 @@ import * as t from "@babel/types";
 export default function(
   api,
   {
-    attrName = "data-test-id",
+    attrName = "test-id",
     mode = "regular", // minimal, regular, full
     ignoreElements = [],
     additionalIgnoreElements = [],
@@ -81,12 +81,10 @@ const concatComponentsName = (
   keyValue = "",
   counter = 0
 ) => {
-  // const componentsName = parent && current ? `${parent}${delimiter}${current}${delimiter}${counter}` : parent || current;
-  const componentsName = parent && current ? `${parent}${delimiter}${current}` : parent || current;
+  const componentsName = parent && current ? `${parent}${delimiter}${current}${delimiter}${counter}` : parent || current;
+  // const componentsName = parent && current ? `${parent}${delimiter}${current}` : parent || current;
 
-  return keyValue
-    ? `\`${componentsName}${delimiter}\${${keyValue}}\``
-    : componentsName;
+  return componentsName;
 };
 
 const passDownComponentName = (path, componentName, mode, delimiter, counter = 0) => {
