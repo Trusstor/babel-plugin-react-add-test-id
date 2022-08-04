@@ -1,6 +1,6 @@
 {
   "name": "@trusstor/babel-plugin-react-add-test-id",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Add attribute on react elements",
   "main": "lib/index.js",
   "scripts": {
